@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.impactdev.reforged.mixins.injections",
+  "refmap": "mixins.impactdev.reforged.refmap.json",
+  "plugin": "net.impactdev.reforged.mixins.MixinPlugin",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "common.PokemonMixin_ImpactDev"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

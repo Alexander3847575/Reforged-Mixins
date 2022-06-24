@@ -1,0 +1,70 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "http://repository.jboss.org/nexus/content/groups/public/"
+        }
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            url = "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            name = 'Sponge Repo'
+            url = 'https://repo.spongepowered.org/repository/sponge-legacy'
+        }
+        maven {
+            // For fernflower
+            name = 'sponge'
+            url = 'https://repo.spongepowered.org/maven'
+        }
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+    }
+}
+
+apply plugin: 'org.spongepowered.mixin'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        name = 'Sponge Releases Repo'
+        url = 'https://repo.spongepowered.org/repository/maven-releases'
+    }
+    maven {
+        // For fernflower
+        name = 'sponge'
+        url = 'https://repo.spongepowered.org/maven'
+    }
+}
+
+dependencies {
+    compile project(":api")
+
+    // Mixins
+    compile 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    //compile('org.jetbrains.java.decompiler:fernflower:sponge-SNAPSHOT')
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+shadowJar {
+    archiveName = "Reforged-Mixins-${project.version}.jar"
+}
+
+reobf {
+    shadowJar {}
+}
+
+mixin {
+    importConfig 'mixins'
+    add sourceSets.main, "mixins.impactdev.reforged.refmap.json"
+}
+
+build.dependsOn reobfShadowJar

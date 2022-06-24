@@ -1,0 +1,4 @@
+rootProject.name = 'Pixelmon Mixins'
+include 'api'
+include 'mod'
+
