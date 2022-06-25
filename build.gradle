@@ -32,8 +32,8 @@ plugins {
 }
 
 allprojects {
-    group = 'net.impactdev'
-    version = "1.2.0"
+    group = 'net.impactdev.reforged.mixins'
+    version = "1.2.0-SNAPSHOT"
 }
 
 apply plugin: 'net.minecraftforge.gradle'

@@ -49,7 +49,6 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
      */
     @Inject(method = "fromNBT", at = @At("HEAD"), remap = false, cancellable = true)
     private static void impactdev$translate(CompoundNBT nbt, CallbackInfoReturnable<PokemonBase> cir) {
-        ReforgedMixins.logger.info("NBT Version: " + nbt.getInt("NBT_VERSION"));
         if(nbt.getInt("NBT_VERSION") != 2) {
             if(nbt.contains("Variant") && nbt.getTagType("Variant") == 1) {
                 // 1.12.2 data found, translate this now

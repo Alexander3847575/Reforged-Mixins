@@ -9,3 +9,28 @@ dependencies {
 shadowJar {
     archiveName = "Pixelmon Mixins API-${project.version}.jar"
 }
+
+apply plugin: 'maven-publish'
+apply plugin: 'maven-publish-auth'
+
+publishing {
+    repositories {
+        maven {
+            name = "ImpactDev-Public"
+            url = "https://maven.impactdev.net/repository/development/"
+            credentials {
+                username System.getenv('NEXUS_USER')
+                password System.getenv('NEXUS_PW')
+            }
+        }
+    }
+
+    publications {
+        api(MavenPublication) {
+            from project.components.java
+            groupId project.group
+            artifactId "api"
+            version project.version
+        }
+    }
+}
