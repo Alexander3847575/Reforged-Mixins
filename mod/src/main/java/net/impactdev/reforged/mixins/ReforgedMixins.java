@@ -1,9 +1,13 @@
 package net.impactdev.reforged.mixins;
 
-import com.google.common.collect.Maps;
-import net.impactdev.reforged.mixins.api.forms.Destination;
-import net.impactdev.reforged.mixins.api.forms.FormTarget;
-import net.impactdev.reforged.mixins.api.forms.LegacyKey;
+import com.pixelmonmod.api.registry.RegistryValue;
+import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
+import com.pixelmonmod.pixelmon.api.pokemon.species.Stats;
+import com.pixelmonmod.pixelmon.api.pokemon.species.gender.Gender;
+import net.impactdev.reforged.mixins.api.translations.forms.Destination;
+import net.impactdev.reforged.mixins.api.translations.forms.LegacyFormTranslation;
+import net.impactdev.reforged.mixins.api.translations.forms.LegacyKey;
+import net.impactdev.reforged.mixins.api.translations.forms.types.PaletteTranslation;
 import net.impactdev.reforged.mixins.registries.Registries;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixins;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Mod("reforgedmixins")
 public class ReforgedMixins {
@@ -28,19 +33,59 @@ public class ReforgedMixins {
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 		Mixins.addConfiguration("mixins.impactdev.reforged.json");
 		MinecraftForge.EVENT_BUS.register(this);
-		logger.info("Booting Pixelmon Mixins");
+		logger.info("Booting Reforged Mixins, ready to apply patches to Reforged's shortcomings");
 
 		Registries.LEGACY_FORMS.init();
 	}
 
 	@SubscribeEvent
 	public void onServerLaunch(FMLServerStartedEvent event) {
-		Map<LegacyKey, FormTarget> translations = Registries.LEGACY_FORMS.translations();
+		Map<LegacyKey, LegacyFormTranslation> translations = Registries.LEGACY_FORMS.translations();
 		long forms = translations.values().stream().filter(x -> x.destination() == Destination.FORM).count();
 		long palettes = translations.values().stream().filter(x -> x.destination() == Destination.PALETTE).count();
 
 		logger.info("Registered form translations: " + forms);
 		logger.info("Registered palette translations: " + palettes);
+
+		long fValid = translations.entrySet().stream()
+				.filter(entry -> entry.getValue().destination() == Destination.FORM)
+				.filter(entry -> {
+					RegistryValue<Species> species = entry.getKey().species();
+					if(species != null) {
+						return species.getValue().map(s -> s.hasForm(entry.getValue().name())).isPresent();
+					}
+
+					return true;
+				})
+				.count();
+		long pValid = translations.entrySet().stream()
+				.filter(entry -> entry.getValue().destination() == Destination.PALETTE)
+				.filter(entry -> {
+					RegistryValue<Species> species = entry.getKey().species();
+					PaletteTranslation translation = (PaletteTranslation) entry.getValue();
+					if(species != null) {
+						for(Gender gender : Gender.values()) {
+							Optional<Stats> stats = species.getValue()
+									.flatMap(s -> translation.form().map(s::getForm));
+							if(!stats.isPresent()) {
+								stats = species.getValue().map(Species::getDefaultForm);
+							}
+
+							if(stats.map(s -> s.getGenderProperties(gender)).map(g -> g.getPalette(entry.getValue().name())).isPresent()) {
+								return false;
+							}
+						}
+
+						return true;
+					}
+
+					return false;
+				})
+				.peek(entry -> logger.info("Invalid Palette translation: " + entry.getKey()))
+				.count();
+
+		logger.debug("Valid form translations: {}/{}", fValid, forms);
+		logger.debug("Valid palette translations: {}/{}", palettes - pValid, palettes);
 	}
 
 }

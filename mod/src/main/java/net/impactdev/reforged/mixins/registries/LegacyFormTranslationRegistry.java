@@ -5,10 +5,11 @@ import com.pixelmonmod.api.registry.RegistryValue;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
 import com.pixelmonmod.pixelmon.api.registries.PixelmonForms;
 import com.pixelmonmod.pixelmon.api.registries.PixelmonPalettes;
-import net.impactdev.reforged.mixins.api.forms.Destination;
-import net.impactdev.reforged.mixins.api.forms.FormTarget;
-import net.impactdev.reforged.mixins.api.forms.LegacyFormTranslator;
-import net.impactdev.reforged.mixins.api.forms.LegacyKey;
+import net.impactdev.reforged.mixins.api.translations.forms.Destination;
+import net.impactdev.reforged.mixins.api.translations.forms.LegacyFormTranslation;
+import net.impactdev.reforged.mixins.api.translations.forms.LegacyFormTranslator;
+import net.impactdev.reforged.mixins.api.translations.forms.LegacyKey;
+import net.impactdev.reforged.mixins.api.translations.forms.types.PaletteTranslation;
 
 import java.util.Map;
 
@@ -16,15 +17,15 @@ import static com.pixelmonmod.pixelmon.api.registries.PixelmonSpecies.*;
 
 public class LegacyFormTranslationRegistry implements Registry, LegacyFormTranslator {
 
-    private final Map<LegacyKey, FormTarget> translations = Maps.newHashMap();
+    private final Map<LegacyKey, LegacyFormTranslation> translations = Maps.newHashMap();
 
     @Override
-    public Map<LegacyKey, FormTarget> translations() {
+    public Map<LegacyKey, LegacyFormTranslation> translations() {
         return this.translations;
     }
 
     @Override
-    public boolean register(LegacyKey key, FormTarget target) {
+    public boolean register(LegacyKey key, LegacyFormTranslation target) {
         if(this.translations.containsKey(key)) {
             return false;
         }
@@ -113,7 +114,7 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
         this.register(AMOONGUSS, 19, "white", Destination.PALETTE);
         this.register(AMOONGUSS, 20, "yellow", Destination.PALETTE);
 
-        this.register(ARBOK, 1, PixelmonPalettes.PRIMARY_CIRCULAR, Destination.PALETTE);
+        this.register(ARBOK, 1, "main_circular", Destination.PALETTE);
         this.register(ARBOK, 2, PixelmonPalettes.SECONDARY_CIRCULAR, Destination.PALETTE);
         this.register(ARBOK, 3, PixelmonPalettes.DARK, Destination.PALETTE);
 
@@ -149,8 +150,8 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
         this.palette(BALTOY, 107, PixelmonPalettes.ALTER);
 
         this.form(BASCULIN, 0, "red");
-        this.palette(BASCULIN, 1, "blue");
-        this.palette(BASCULIN, 2, "white");
+        this.form(BASCULIN, 1, "blue");
+        this.form(BASCULIN, 2, "white");
 
         this.palette(BEAUTIFLY, 104, PixelmonPalettes.RAINBOW);
 
@@ -168,7 +169,7 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
 
         this.palette(BLASTOISE, 100, PixelmonPalettes.ZOMBIE);
         this.palette(BLISSEY, 106, PixelmonPalettes.VALENCIAN);
-        this.palette(BOLTUND, 112, PixelmonPalettes.VALENCIAN);
+        this.palette(BOLTUND, 112, PixelmonPalettes.STRIKE);
         this.form(BRAVIARY, 3, PixelmonForms.HISUIAN);
         this.palette(BRELOOM, 114, PixelmonPalettes.SPIRIT);
         this.form(BURMY, 0, PixelmonForms.PLANT_CLOAK);
@@ -317,8 +318,12 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
         this.form(GROUDON, 1, PixelmonForms.PRIMAL);
         this.palette(GROUDON, 3, PixelmonPalettes.META);
         this.form(GROWLITHE, 3, PixelmonForms.HISUIAN);
-        this.palette(GYARADOS, 100, PixelmonPalettes.ZOMBIE);
+
+        // Reforged seems to have nuked the zombie palette, weird, but in the land of
+        // best practices, expected
+        // this.palette(GYARADOS, 100, PixelmonPalettes.ZOMBIE);
         this.palette(GYARADOS, 102, PixelmonPalettes.DROWNED);
+
         this.palette(HONEDGE, 107, PixelmonPalettes.ALTER);
         this.palette(HOOH, 104, PixelmonPalettes.RAINBOW);
         this.form(HOOPA, 0, PixelmonForms.CONFINED);
@@ -363,10 +368,10 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
         this.palette(MAGIKARP, 4, PixelmonPalettes.CALICO_ORANGE_WHITE_BLACK);
         this.palette(MAGIKARP, 5, PixelmonPalettes.CALICO_WHITE_ORANGE);
         this.palette(MAGIKARP, 6, PixelmonPalettes.CALICO_ORANGE_GOLD);
-        this.palette(MAGIKARP, 7, PixelmonPalettes.ORANGE_TWO_TONE);
+        this.palette(MAGIKARP, 7, "orange_twotone");
         this.palette(MAGIKARP, 8, PixelmonPalettes.ORANGE_ORCA);
         this.palette(MAGIKARP, 9, PixelmonPalettes.ORANGE_DAPPLES);
-        this.palette(MAGIKARP, 10, PixelmonPalettes.PINK_TWO_TONE);
+        this.palette(MAGIKARP, 10, "pink_twotone");
         this.palette(MAGIKARP, 11, PixelmonPalettes.PINK_ORCA);
         this.palette(MAGIKARP, 12, PixelmonPalettes.PINK_DAPPLES);
         this.palette(MAGIKARP, 13, PixelmonPalettes.GRAY_BUBBLES);
@@ -386,9 +391,9 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
         this.palette(MAGIKARP, 27, PixelmonPalettes.BLACK_FOREHEAD);
         this.palette(MAGIKARP, 28, PixelmonPalettes.BLACK_MASK);
         this.palette(MAGIKARP, 29, PixelmonPalettes.BLUE_SAUCY);
-        this.palette(MAGIKARP, 30, PixelmonPalettes.BLUE_RAINDROP);
+        this.palette(MAGIKARP, 30, "blue_raindrops");
         this.palette(MAGIKARP, 31, PixelmonPalettes.VIOLET_SAUCY);
-        this.palette(MAGIKARP, 32, PixelmonPalettes.VIOLET_RAINDROP);
+        this.palette(MAGIKARP, 32, "violet_raindrops");
         this.palette(MAGIKARP, 106, PixelmonPalettes.VALENCIAN);
         this.palette(MAGMAR, 1, PixelmonPalettes.COPPER_SULFATE);
         this.palette(MAGMAR, 2, PixelmonPalettes.CUPRIC_CHLORIDE);
@@ -495,6 +500,7 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
         this.form(QWILFISH, 3, PixelmonForms.HISUIAN);
         this.palette(QWILFISH, 102, PixelmonPalettes.DROWNED);
         this.form(RAICHU, 1, PixelmonForms.ALOLAN);
+        this.register(LegacyKey.of(109, RAICHU), PaletteTranslation.of(PixelmonPalettes.SUMMER, PixelmonForms.ALOLAN));
         this.palette(RAICHU, 109, PixelmonPalettes.SUMMER);
         this.palette(RALTS, 112, PixelmonPalettes.STRIKE);
         this.form(RAPIDASH, 2, PixelmonForms.GALARIAN);
@@ -546,7 +552,7 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
         this.palette(SHELLOS, 6, PixelmonPalettes.VIOLET_SAUCY);
         this.palette(SHELLOS, 7, PixelmonPalettes.BROWN_STRIPES);
         this.palette(SHELLOS, 8, "apricot_saucy");
-        this.palette(SHELLOS, 9, PixelmonPalettes.BLUE_STRIPE);
+        this.palette(SHELLOS, 9, "blue_stripes");
         this.palette(SHELLOS, 10, "moons");
         this.palette(SHELLOS, 11, "sun");
         this.palette(SHELLOS, 12, "golde");
@@ -585,7 +591,7 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
         this.palette(SLUGMA, 1, PixelmonPalettes.SODIUM_CARBONATE);
         this.palette(SLUGMA, 1, PixelmonPalettes.CALCIUM_CARBONATE);
         this.palette(SNEASEL, 112, PixelmonPalettes.STRIKE);
-        this.palette(SNORLAX, 1, PixelmonPalettes.SNOWY);
+        this.palette(SNORLAX, 1, "snow");
         this.palette(SNORLAX, 109, PixelmonPalettes.SUMMER);
         this.form(SOLGALEO, 1, "radiantsun");
         this.palette(SPINDA, 103, PixelmonPalettes.VALENTINE);

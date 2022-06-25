@@ -7,7 +7,7 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "common.PokemonMixin_ImpactDev"
+    "common.PokemonBaseMixin_ImpactDev"
   ],
   "client": [],
   "injectors": {

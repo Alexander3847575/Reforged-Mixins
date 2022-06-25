@@ -1,7 +1,9 @@
-package net.impactdev.reforged.mixins.api.forms;
+package net.impactdev.reforged.mixins.api.translations.forms;
 
 import com.pixelmonmod.api.registry.RegistryValue;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
+import net.impactdev.reforged.mixins.api.translations.forms.types.FormTranslation;
+import net.impactdev.reforged.mixins.api.translations.forms.types.PaletteTranslation;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -25,7 +27,7 @@ public interface LegacyFormTranslator {
      *
      * @return The translation mapping for 1.12.2 to 1.16.5 data
      */
-    Map<LegacyKey, FormTarget> translations();
+    Map<LegacyKey, LegacyFormTranslation> translations();
 
     /**
      * Registers a form translation between 1.12.2 and 1.16.5 data.
@@ -62,7 +64,11 @@ public interface LegacyFormTranslator {
      * @see #register(int, String, Destination) for further documentation on destination
      */
     default boolean register(@Nullable RegistryValue<Species> species, int legacy, String target, Destination destination) {
-        return this.register(LegacyKey.of(legacy, species), FormTarget.of(target, destination));
+        if(destination == Destination.FORM) {
+            return this.register(LegacyKey.of(legacy, species), FormTranslation.of(target));
+        } else {
+            return this.register(LegacyKey.of(legacy, species), PaletteTranslation.of(target));
+        }
     }
 
     /**
@@ -80,6 +86,6 @@ public interface LegacyFormTranslator {
      * registration was already registered with the same key parameters.
      * @see #register(int, String, Destination) for further documentation on destination
      */
-    boolean register(LegacyKey key, FormTarget target);
+    boolean register(LegacyKey key, LegacyFormTranslation target);
 
 }

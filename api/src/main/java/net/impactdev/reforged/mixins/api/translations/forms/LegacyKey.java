@@ -1,9 +1,11 @@
-package net.impactdev.reforged.mixins.api.forms;
+package net.impactdev.reforged.mixins.api.translations.forms;
 
 import com.pixelmonmod.api.registry.RegistryValue;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
+import java.util.Optional;
 
 public class LegacyKey {
 
@@ -31,4 +33,24 @@ public class LegacyKey {
         return this.id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LegacyKey legacyKey = (LegacyKey) o;
+        return id == legacyKey.id && Objects.equals(species, legacyKey.species);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(species, id);
+    }
+
+    @Override
+    public String toString() {
+        return "LegacyKey{" +
+                "species=" + Optional.ofNullable(this.species).map(RegistryValue::getKey).orElse(null) +
+                ", id=" + id +
+                '}';
+    }
 }

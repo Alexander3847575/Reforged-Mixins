@@ -45,6 +45,7 @@ repositories {
 
 dependencies {
     compile project(":api")
+    compileOnly fileTree(dir: 'libs', include: '*.jar')
 
     // Mixins
     compile 'org.spongepowered:mixin:0.8.5'
