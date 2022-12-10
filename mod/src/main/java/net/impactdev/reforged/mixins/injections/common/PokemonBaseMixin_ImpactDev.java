@@ -6,6 +6,7 @@ import com.pixelmonmod.pixelmon.api.pokemon.item.pokeball.PokeBallRegistry;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Stats;
 import com.pixelmonmod.pixelmon.api.pokemon.species.gender.Gender;
+import com.pixelmonmod.pixelmon.api.pokemon.species.gender.GenderProperties;
 import com.pixelmonmod.pixelmon.api.pokemon.species.palette.PaletteProperties;
 import com.pixelmonmod.pixelmon.api.registries.PixelmonSpecies;
 import net.impactdev.reforged.mixins.ReforgedMixins;
@@ -14,7 +15,7 @@ import net.impactdev.reforged.mixins.api.translations.forms.LegacyFormTranslatio
 import net.impactdev.reforged.mixins.api.translations.forms.LegacyKey;
 import net.impactdev.reforged.mixins.api.translations.forms.types.PaletteTranslation;
 import net.impactdev.reforged.mixins.extensions.PokemonBaseExpansion;
-import net.impactdev.reforged.mixins.registries.Registries;
+import net.impactdev.reforged.mixins.api.registry.Registries;
 import net.minecraft.nbt.CompoundNBT;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -53,7 +54,7 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
             if(nbt.contains("Variant") && nbt.getTagType("Variant") == 1) {
                 // 1.12.2 data found, translate this now
                 PokemonBaseExpansion base = (PokemonBaseExpansion) new PokemonBase();
-                Map<LegacyKey, LegacyFormTranslation> translations = Registries.LEGACY_FORMS.translations();
+                Map<LegacyKey, LegacyFormTranslation> translations = Registries.LEGACY_FORMS.get().translations();
 
                 if(nbt.contains("ndex")) {
                     base.species(PixelmonSpecies.fromNationalDex(nbt.getInt("ndex")));
@@ -80,12 +81,12 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
                     String ball = nbt.getString("CaughtBall");
                     if (ball.isEmpty()) {
                         if (nbt.getInt("CaughtBall") > -1) {
-                            base.pokeball(PokeBallRegistry.STRANGE_BALL.get());
+                            base.pokeball(PokeBallRegistry.STRANGE_BALL.getValueUnsafe());
                         } else {
                             base.pokeball(null);
                         }
                     } else {
-                        base.pokeball(PokeBallRegistry.getPokeBall(ball).orElse(PokeBallRegistry.POKE_BALL.get()));
+                        base.pokeball(PokeBallRegistry.getPokeBall(ball).orElse(PokeBallRegistry.POKE_BALL.getValueUnsafe()));
                     }
                 } else {
                     base.pokeball(null);
@@ -104,15 +105,31 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
     }
 
     private static void translate(CompoundNBT nbt, PokemonBaseExpansion base, Map<LegacyKey, LegacyFormTranslation> translations, LegacyKey species) {
-        LegacyFormTranslation target = translations.get(species);
-        if(target.destination() == Destination.FORM) {
-            base.form(base.getSpecies().getForm(target.name()));
-        } else {
-            PaletteProperties properties = base.getGenderProperties().getPalette(target.name());
-            base.form(((PaletteTranslation) target).form().map(f -> base.getSpecies().getForm(f)).orElse(base.getSpecies().getDefaultForm()));
-            base.palette(properties);
-            nbt.putString("palette", properties.getName());
-            nbt.remove("IsShiny");
+        try {
+            LegacyFormTranslation target = translations.get(species);
+            if (target.destination() == Destination.FORM) {
+                base.form(base.getSpecies().getForm(target.name()));
+            } else {
+                base.form(((PaletteTranslation) target).form().map(f -> base.getSpecies().getForm(f)).orElse(base.getSpecies().getDefaultForm()));
+
+                GenderProperties gender = base.getGenderProperties();
+                if(gender == null) {
+                    ReforgedMixins.logger.error("Gender properties resulted in null");
+                }
+
+                PaletteProperties properties = base.getGenderProperties().getPalette(target.name());
+                if(properties == null) {
+                    ReforgedMixins.logger.error("Palette properties lacking");
+                }
+
+                base.palette(properties);
+                nbt.putString("palette", properties.getName());
+                nbt.remove("IsShiny");
+            }
+
+        } catch (Exception e) {
+            ReforgedMixins.logger.error("Potentially unregistered translation: {} ({})", species.toString(), nbt.toString());
+            e.printStackTrace();
         }
     }
 
@@ -124,6 +141,10 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
     @Override
     public void form(Stats form) {
         this.form = form;
+    }
+
+    public Stats form() {
+        return this.form;
     }
 
     @Override

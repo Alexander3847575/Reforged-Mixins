@@ -8,7 +8,8 @@ import net.impactdev.reforged.mixins.api.translations.forms.Destination;
 import net.impactdev.reforged.mixins.api.translations.forms.LegacyFormTranslation;
 import net.impactdev.reforged.mixins.api.translations.forms.LegacyKey;
 import net.impactdev.reforged.mixins.api.translations.forms.types.PaletteTranslation;
-import net.impactdev.reforged.mixins.registries.Registries;
+import net.impactdev.reforged.mixins.api.registry.Registries;
+import net.impactdev.reforged.mixins.registries.LegacyFormTranslationRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
@@ -35,12 +36,13 @@ public class ReforgedMixins {
 		MinecraftForge.EVENT_BUS.register(this);
 		logger.info("Booting Reforged Mixins, ready to apply patches to Reforged's shortcomings");
 
-		Registries.LEGACY_FORMS.init();
+		Registries.LEGACY_FORMS.set(new LegacyFormTranslationRegistry());
+		Registries.LEGACY_FORMS.get().init();
 	}
 
 	@SubscribeEvent
 	public void onServerLaunch(FMLServerStartedEvent event) {
-		Map<LegacyKey, LegacyFormTranslation> translations = Registries.LEGACY_FORMS.translations();
+		Map<LegacyKey, LegacyFormTranslation> translations = Registries.LEGACY_FORMS.get().translations();
 		long forms = translations.values().stream().filter(x -> x.destination() == Destination.FORM).count();
 		long palettes = translations.values().stream().filter(x -> x.destination() == Destination.PALETTE).count();
 

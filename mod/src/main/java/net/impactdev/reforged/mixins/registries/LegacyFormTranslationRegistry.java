@@ -5,6 +5,7 @@ import com.pixelmonmod.api.registry.RegistryValue;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
 import com.pixelmonmod.pixelmon.api.registries.PixelmonForms;
 import com.pixelmonmod.pixelmon.api.registries.PixelmonPalettes;
+import net.impactdev.reforged.mixins.api.registry.Registry;
 import net.impactdev.reforged.mixins.api.translations.forms.Destination;
 import net.impactdev.reforged.mixins.api.translations.forms.LegacyFormTranslation;
 import net.impactdev.reforged.mixins.api.translations.forms.LegacyFormTranslator;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 import static com.pixelmonmod.pixelmon.api.registries.PixelmonSpecies.*;
 
-public class LegacyFormTranslationRegistry implements Registry, LegacyFormTranslator {
+public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
 
     private final Map<LegacyKey, LegacyFormTranslation> translations = Maps.newHashMap();
 
@@ -122,7 +123,6 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
         this.register(ARCANINE, 100, PixelmonPalettes.ZOMBIE, Destination.PALETTE);
         this.register(ARCANINE, 113, PixelmonPalettes.ASHEN, Destination.PALETTE);
 
-        this.form(ARCEUS, 0, PixelmonForms.NORMAL);
         this.form(ARCEUS, 1, PixelmonForms.GRASS);
         this.form(ARCEUS, 2, PixelmonForms.FIRE);
         this.form(ARCEUS, 3, PixelmonForms.WATER);
@@ -310,7 +310,7 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
         this.form(GENGAR, 1, PixelmonForms.ALOLAN);
         this.form(GOODRA, 3, PixelmonForms.HISUIAN);
         this.form(GRAVELER, 1, PixelmonForms.ALOLAN);
-        this.form(GRENINJA, 1, PixelmonForms.BATTLEBOND);
+        this.form(GRENINJA, 1, PixelmonForms.BATTLE_BOND);
         this.form(GRENINJA, 2, PixelmonForms.ASH);
         this.palette(GRENINJA, 3, PixelmonPalettes.ZOMBIE);
         this.palette(GRENINJA, 7, PixelmonPalettes.ALTER);
@@ -386,8 +386,6 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
         this.palette(MAGIKARP, 22, PixelmonPalettes.BROWN_TIGER);
         this.palette(MAGIKARP, 23, PixelmonPalettes.BROWN_ZEBRA);
         this.palette(MAGIKARP, 24, PixelmonPalettes.BROWN_STRIPES);
-        this.palette(MAGIKARP, 25, PixelmonPalettes.WHITE_FOREHEAD);
-        this.palette(MAGIKARP, 26, PixelmonPalettes.WHITE_MASK);
         this.palette(MAGIKARP, 27, PixelmonPalettes.BLACK_FOREHEAD);
         this.palette(MAGIKARP, 28, PixelmonPalettes.BLACK_MASK);
         this.palette(MAGIKARP, 29, PixelmonPalettes.BLUE_SAUCY);
@@ -543,22 +541,21 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
         this.palette(SHEDINJA, 107, PixelmonPalettes.ALTER);
         this.palette(SHELGON, 107, PixelmonPalettes.ALTER);
         this.palette(SHELLDER, 106, PixelmonPalettes.VALENCIAN);
-        this.palette(SHELLOS, 0, PixelmonForms.EAST);
-        this.palette(SHELLOS, 1, PixelmonForms.WEST);
-        this.palette(SHELLOS, 2, PixelmonPalettes.GRAY_BUBBLES);
-        this.palette(SHELLOS, 3, PixelmonPalettes.GRAY_DIAMONDS);
-        this.palette(SHELLOS, 4, PixelmonPalettes.PURPLE_BUBBLES);
-        this.palette(SHELLOS, 5, PixelmonPalettes.PURPLE_DIAMONDS);
-        this.palette(SHELLOS, 6, PixelmonPalettes.VIOLET_SAUCY);
-        this.palette(SHELLOS, 7, PixelmonPalettes.BROWN_STRIPES);
-        this.palette(SHELLOS, 8, "apricot_saucy");
-        this.palette(SHELLOS, 9, "blue_stripes");
-        this.palette(SHELLOS, 10, "moons");
-        this.palette(SHELLOS, 11, "sun");
-        this.palette(SHELLOS, 12, "golde");
-        this.palette(SHELLOS, 13, "goldw");
+        this.form(SHELLOS, 0, PixelmonForms.EAST);
+        this.form(SHELLOS, 1, PixelmonForms.WEST);
+        this.formAndPalette(SHELLOS, 2, PixelmonForms.EAST, PixelmonPalettes.GRAY_BUBBLES);
+        this.formAndPalette(SHELLOS, 3, PixelmonForms.WEST, PixelmonPalettes.GRAY_DIAMONDS);
+        this.formAndPalette(SHELLOS, 4, PixelmonForms.EAST, PixelmonPalettes.PURPLE_BUBBLES);
+        this.formAndPalette(SHELLOS, 5, PixelmonForms.WEST, PixelmonPalettes.PURPLE_DIAMONDS);
+        this.formAndPalette(SHELLOS, 6, PixelmonForms.EAST, PixelmonPalettes.VIOLET_SAUCY);
+        this.formAndPalette(SHELLOS, 7, PixelmonForms.WEST, PixelmonPalettes.BROWN_STRIPES);
+        this.formAndPalette(SHELLOS, 8, PixelmonForms.EAST, "apricot_saucy");
+        this.formAndPalette(SHELLOS, 9, PixelmonForms.WEST, "blue_stripes");
+        this.formAndPalette(SHELLOS, 10, PixelmonForms.EAST, "moons");
+        this.formAndPalette(SHELLOS, 11, PixelmonForms.WEST, "sun");
+        this.formAndPalette(SHELLOS, 12, PixelmonForms.EAST, "golde");
+        this.formAndPalette(SHELLOS, 13, PixelmonForms.WEST, "goldw");
         this.palette(SHROOMISH, 114, PixelmonPalettes.SPIRIT);
-        this.form(SILVALLY, 0, PixelmonForms.NORMAL);
         this.form(SILVALLY, 1, PixelmonForms.GRASS);
         this.form(SILVALLY, 2, PixelmonForms.FIRE);
         this.form(SILVALLY, 3, PixelmonForms.WATER);
@@ -734,5 +731,9 @@ public class LegacyFormTranslationRegistry implements Registry, LegacyFormTransl
 
     private void palette(RegistryValue<Species> species, int legacy, String name) {
         this.register(species, legacy, name, Destination.PALETTE);
+    }
+
+    private void formAndPalette(RegistryValue<Species> species, int legacy, String form, String palette) {
+        this.register(species, legacy, form, palette, Destination.PALETTE);
     }
 }

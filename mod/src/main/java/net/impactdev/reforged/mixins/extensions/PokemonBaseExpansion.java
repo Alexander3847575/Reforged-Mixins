@@ -13,6 +13,7 @@ public interface PokemonBaseExpansion {
 
     void species(Species species);
     void form(Stats form);
+    Stats form();
     void palette(PaletteProperties palette);
     void gender(Gender gender);
     void pokeball(PokeBall ball);

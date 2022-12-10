@@ -2,6 +2,7 @@ package net.impactdev.reforged.mixins.api.translations.forms;
 
 import com.pixelmonmod.api.registry.RegistryValue;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
+import net.impactdev.reforged.mixins.api.registry.Registry;
 import net.impactdev.reforged.mixins.api.translations.forms.types.FormTranslation;
 import net.impactdev.reforged.mixins.api.translations.forms.types.PaletteTranslation;
 
@@ -19,7 +20,7 @@ import java.util.Map;
  * translations, but this API is meant to serve as a means of providing this implementation
  * additional detail on custom forms.
  */
-public interface LegacyFormTranslator {
+public interface LegacyFormTranslator extends Registry {
 
     /**
      * Provides a mapping for registered translations between the 1.12.2 information to
@@ -69,6 +70,10 @@ public interface LegacyFormTranslator {
         } else {
             return this.register(LegacyKey.of(legacy, species), PaletteTranslation.of(target));
         }
+    }
+
+    default boolean register(@Nullable RegistryValue<Species> species, int legacy, String form, String palette, Destination destination) {
+        return this.register(LegacyKey.of(legacy, species), PaletteTranslation.of(palette, form));
     }
 
     /**

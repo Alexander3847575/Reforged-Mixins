@@ -21,7 +21,7 @@ public class LegacyKey {
     }
 
     private LegacyKey(final int id, @Nullable final RegistryValue<Species> species) {
-        this.id = id;
+        this.id = Math.max(0, id);
         this.species = species;
     }
 
