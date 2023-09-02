@@ -153,6 +153,10 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.form(BASCULIN, 1, "blue");
         this.form(BASCULIN, 2, "white");
 
+        // Gotten from Species.json data; placeholder palette then determined by gender by data
+        this.palette(BASCULEGION, 0, PixelmonPalettes.NONE);
+        this.palette(BASCULEGION, 1, PixelmonPalettes.NONE);
+
         this.palette(BEAUTIFLY, 104, PixelmonPalettes.RAINBOW);
 
         // They've forgotten to add the pink to the mega palettes, so just revert a mega to base pink
@@ -260,10 +264,13 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.palette(ELECTRODE, 109, PixelmonPalettes.SUMMER);
         this.palette(EMBOAR, 100, PixelmonPalettes.ZOMBIE);
         this.palette(EMPOLEON, 100, PixelmonPalettes.ZOMBIE);
+        this.form(ENAMORUS, 0, PixelmonForms.INCARNATE);
+        this.form(ENAMORUS, 1, PixelmonForms.THERIAN);
         this.palette(ESPEON, 112, PixelmonPalettes.STRIKE);
         this.palette(ESPEON, 114, PixelmonPalettes.STRIKE);
+        this.form(ETERNATUS, 0, PixelmonForms.ORDINARY);
         this.form(ETERNATUS, 1, "eternamax");
-        this.form(ETERNATUS, 2, "cosmetic");
+        this.form(ETERNATUS, 2, "ordinary");
         this.palette(EXEGGCUTE, 108, PixelmonPalettes.PINK);
         this.form(EXEGGUTOR, 1, PixelmonForms.ALOLAN);
         this.palette(EXEGGUTOR, 108, PixelmonPalettes.PINK);
@@ -283,7 +290,7 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.palette(FLOETTE, 2, PixelmonPalettes.ORANGE);
         this.palette(FLOETTE, 3, PixelmonPalettes.BLUE);
         this.palette(FLOETTE, 4, PixelmonPalettes.WHITE);
-        this.form(FLOETTE, 5, "az");
+        this.form(FLOETTE, 5, PixelmonForms.ETERNAL_FLOWER);
         this.palette(FLORGES, 0, PixelmonPalettes.RED);
         this.palette(FLORGES, 1, PixelmonPalettes.YELLOW);
         this.palette(FLORGES, 2, PixelmonPalettes.ORANGE);
@@ -302,6 +309,7 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.form(GENESECT, 4, PixelmonForms.SHOCK);
         this.palette(GENGAR, 113, PixelmonPalettes.ASHEN);
         this.form(GEODUDE, 1, PixelmonForms.ALOLAN);
+        this.form(GIRATINA, 0, PixelmonForms.ALTERED);
         this.form(GIRATINA, 1, PixelmonForms.ORIGIN);
         this.palette(GLACEON, 114, PixelmonPalettes.SPIRIT);
         this.palette(GLOOM, 106, PixelmonPalettes.VALENCIAN);
@@ -330,6 +338,8 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.form(HOOPA, 1, PixelmonForms.UNBOUND);
         this.palette(HOUNDOOM, 113, PixelmonPalettes.ASHEN);
         this.palette(HYDREIGON, 113, PixelmonPalettes.ASHEN);
+        this.form(INDEEDEE, 0, "female");
+        this.form(INDEEDEE, 1, "male");
         this.palette(INFERNAPE, 100, PixelmonPalettes.ZOMBIE);
         this.palette(INFERNAPE, 104, PixelmonPalettes.RAINBOW);
         this.palette(IVYSAUR, 115, "halloween");
@@ -444,6 +454,8 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.palette(MINIOR, 7, "violet");
         this.palette(MISDREAVUS, 108, PixelmonPalettes.PINK);
         this.palette(MISMAGIUS, 108, PixelmonPalettes.PINK);
+        this.form(MORPEKO, 0, PixelmonForms.FULL_BELLY);
+        this.form(MORPEKO, 1, PixelmonForms.HANGRY);
         this.form(MRMIME, 2, PixelmonForms.GALARIAN);
         this.form(MUK, 1, PixelmonForms.ALOLAN);
         this.form(NECROZMA, 1, PixelmonForms.DUSK);
@@ -484,8 +496,10 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.palette(PIKACHU, 102, PixelmonPalettes.DROWNED);
         this.palette(POLIWAG, 106, PixelmonPalettes.VALENCIAN);
         this.palette(POLIWRATH, 112, PixelmonPalettes.STRIKE);
-        this.form(POLTEAGEIST, 0, PixelmonForms.PHONEY);
-        this.form(POLTEAGEIST, 0, "antique");
+
+        // Pixelmon seems to have a spelling error -- PixelmonForms.PHONEY vs the valid form "phony" and ANTIQUE does not exist
+        this.form(POLTEAGEIST, 0, "phony");
+        this.form(POLTEAGEIST, 1, "antique");
         this.form(PONYTA, 2, PixelmonForms.GALARIAN);
         this.palette(PONYTA, 104, PixelmonPalettes.RAINBOW);
         this.palette(PORYGON, 107, PixelmonPalettes.ALTER);
@@ -573,7 +587,9 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.form(SILVALLY, 15, PixelmonForms.ICE);
         this.form(SILVALLY, 16, PixelmonForms.DRAGON);
         this.form(SILVALLY, 17, PixelmonForms.FAIRY);
-        this.form(SINISTEA, 0, PixelmonForms.PHONEY);
+
+        // Pixelmon seems to have a spelling error -- PixelmonForms.PHONEY vs the valid form "phony" and ANTIQUE does not exist
+        this.form(SINISTEA, 0, "phony");
         this.form(SINISTEA, 1, "antique");
         this.palette(SKARMORY, 104, PixelmonPalettes.RAINBOW);
         this.form(SLIGGOO, 3, PixelmonForms.HISUIAN);
@@ -719,6 +735,9 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.form(ZORUA, 3, PixelmonForms.HISUIAN);
         this.palette(ZORUA, 107, PixelmonPalettes.ALTER);
         this.palette(ZUBAT, 112, PixelmonPalettes.STRIKE);
+        this.form(ZYGARDE, 0, PixelmonForms.FIFTY_PERCENT);
+        this.form(ZYGARDE, 1, PixelmonForms.TEN_PERCENT);
+        this.form(ZYGARDE, 2, PixelmonForms.COMPLETE);
     }
 
     private void mega(RegistryValue<Species> species) {
