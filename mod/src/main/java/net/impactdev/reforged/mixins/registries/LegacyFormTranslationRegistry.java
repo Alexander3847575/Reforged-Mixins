@@ -191,6 +191,7 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.palette(CELEBI, 105, PixelmonPalettes.ALIEN);
         this.palette(CENTISKORCH, 113, PixelmonPalettes.ASHEN);
         this.palette(CHANSEY, 106, PixelmonPalettes.VALENCIAN);
+        this.palette(CHARIZARD, 0, PixelmonPalettes.NONE);
         this.palette(CHARIZARD, 100, PixelmonPalettes.ZOMBIE);
         this.form(CHERRIM, 0, PixelmonForms.OVERCAST);
         this.form(CHERRIM, 1, PixelmonForms.SUNSHINE);

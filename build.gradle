@@ -143,10 +143,10 @@ subprojects {
 
     dependencies {
         // Forge
-        minecraft 'net.minecraftforge:forge:1.16.5-36.2.20'
+        minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
 
         // Pixelmon
-        implementation fg.deobf('pixelmon:Pixelmon-1.16.5-9.1.0-server:9.1.0')
+        implementation fg.deobf('pixelmon:Pixelmon-1.16.5-9.1.7-server:9.1.7')
 
         // Additional
         shadow 'org.slf4j:slf4j-api:1.7.25'

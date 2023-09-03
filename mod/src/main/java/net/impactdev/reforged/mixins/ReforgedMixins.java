@@ -28,20 +28,21 @@ import java.util.Optional;
 @Mod("reforgedmixins")
 public class ReforgedMixins {
 
-	public static final Logger logger = LogManager.getLogger("Pixelmon Mixins");
+	public static final Logger logger = LogManager.getLogger("Reforged Mixins");
 
 	public ReforgedMixins() {
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 		Mixins.addConfiguration("mixins.impactdev.reforged.json");
 		MinecraftForge.EVENT_BUS.register(this);
 		logger.info("Booting Reforged Mixins, ready to apply patches to Reforged's shortcomings");
-
-		Registries.LEGACY_FORMS.set(new LegacyFormTranslationRegistry());
-		Registries.LEGACY_FORMS.get().init();
 	}
 
 	@SubscribeEvent
 	public void onServerLaunch(FMLServerStartedEvent event) {
+
+		// Moved later in lifecycle to prevent classloading which broke the mixin targets
+		Registries.LEGACY_FORMS.set(new LegacyFormTranslationRegistry());
+		Registries.LEGACY_FORMS.get().init();
 		Map<LegacyKey, LegacyFormTranslation> translations = Registries.LEGACY_FORMS.get().translations();
 		long forms = translations.values().stream().filter(x -> x.destination() == Destination.FORM).count();
 		long palettes = translations.values().stream().filter(x -> x.destination() == Destination.PALETTE).count();
