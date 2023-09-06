@@ -4,11 +4,11 @@ import com.pixelmonmod.api.registry.RegistryValue;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Stats;
 import com.pixelmonmod.pixelmon.api.pokemon.species.gender.Gender;
+import net.impactdev.reforged.mixins.api.registry.Registries;
 import net.impactdev.reforged.mixins.api.translations.forms.Destination;
 import net.impactdev.reforged.mixins.api.translations.forms.LegacyFormTranslation;
 import net.impactdev.reforged.mixins.api.translations.forms.LegacyKey;
 import net.impactdev.reforged.mixins.api.translations.forms.types.PaletteTranslation;
-import net.impactdev.reforged.mixins.api.registry.Registries;
 import net.impactdev.reforged.mixins.registries.LegacyFormTranslationRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,14 +35,15 @@ public class ReforgedMixins {
 		Mixins.addConfiguration("mixins.impactdev.reforged.json");
 		MinecraftForge.EVENT_BUS.register(this);
 		logger.info("Booting Reforged Mixins, ready to apply patches to Reforged's shortcomings");
+		Registries.LEGACY_FORMS.set(new LegacyFormTranslationRegistry());
+		Registries.LEGACY_FORMS.get().init();
 	}
 
 	@SubscribeEvent
 	public void onServerLaunch(FMLServerStartedEvent event) {
 
-		// Moved later in lifecycle to prevent classloading which broke the mixin targets
-		Registries.LEGACY_FORMS.set(new LegacyFormTranslationRegistry());
-		Registries.LEGACY_FORMS.get().init();
+
+
 		Map<LegacyKey, LegacyFormTranslation> translations = Registries.LEGACY_FORMS.get().translations();
 		long forms = translations.values().stream().filter(x -> x.destination() == Destination.FORM).count();
 		long palettes = translations.values().stream().filter(x -> x.destination() == Destination.PALETTE).count();

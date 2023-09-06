@@ -10,18 +10,24 @@ public class PaletteTranslation implements LegacyFormTranslation {
 
     private final String name;
     private final String form;
+    private final String shinySuffix; // The ONLY reason why this exists is that for some reason the Florges line has <form>shiny whereas others have <form>_shiny
 
     public static PaletteTranslation of(final String name) {
-        return new PaletteTranslation(name, null);
+        return PaletteTranslation.of(name, null);
     }
 
     public static PaletteTranslation of(final String name, @Nullable final String form) {
-        return new PaletteTranslation(name, form);
+        return PaletteTranslation.of(name, form, "_shiny");
     }
 
-    private PaletteTranslation(String name, @Nullable String form) {
+    public static PaletteTranslation of(final String name, @Nullable final String form, String shinySuffix) {
+        return new PaletteTranslation(name, form, shinySuffix);
+    }
+
+    private PaletteTranslation(String name, @Nullable String form, String shinySuffix) {
         this.name = name;
         this.form = form;
+        this.shinySuffix = shinySuffix;
     }
 
     public final String name() {
@@ -31,6 +37,8 @@ public class PaletteTranslation implements LegacyFormTranslation {
     public Optional<String> form() {
         return Optional.ofNullable(this.form);
     }
+
+    public String shinySuffix() { return this.shinySuffix; }
 
     @Override
     public Destination destination() {

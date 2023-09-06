@@ -10,12 +10,12 @@ import com.pixelmonmod.pixelmon.api.pokemon.species.gender.GenderProperties;
 import com.pixelmonmod.pixelmon.api.pokemon.species.palette.PaletteProperties;
 import com.pixelmonmod.pixelmon.api.registries.PixelmonSpecies;
 import net.impactdev.reforged.mixins.ReforgedMixins;
+import net.impactdev.reforged.mixins.api.registry.Registries;
 import net.impactdev.reforged.mixins.api.translations.forms.Destination;
 import net.impactdev.reforged.mixins.api.translations.forms.LegacyFormTranslation;
 import net.impactdev.reforged.mixins.api.translations.forms.LegacyKey;
 import net.impactdev.reforged.mixins.api.translations.forms.types.PaletteTranslation;
 import net.impactdev.reforged.mixins.extensions.PokemonBaseExpansion;
-import net.impactdev.reforged.mixins.api.registry.Registries;
 import net.minecraft.nbt.CompoundNBT;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Mixin(PokemonBase.class)
 public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion {
@@ -50,7 +51,9 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
      */
     @Inject(method = "fromNBT", at = @At("HEAD"), remap = false, cancellable = true)
     private static void impactdev$translate(CompoundNBT nbt, CallbackInfoReturnable<PokemonBase> cir) {
+        // Legacy == 1, 1.16.5+ == 2
         if(nbt.getInt("NBT_VERSION") != 2) {
+            // Check for Variant tag of type byte
             if(nbt.contains("Variant") && nbt.getTagType("Variant") == 1) {
                 // 1.12.2 data found, translate this now
                 PokemonBaseExpansion base = (PokemonBaseExpansion) new PokemonBase();
@@ -105,6 +108,8 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
     }
 
     private static void translate(CompoundNBT nbt, PokemonBaseExpansion base, Map<LegacyKey, LegacyFormTranslation> translations, LegacyKey species) {
+
+
         try {
             LegacyFormTranslation target = translations.get(species);
             if (target.destination() == Destination.FORM) {
@@ -112,19 +117,48 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
             } else {
                 base.form(((PaletteTranslation) target).form().map(f -> base.getSpecies().getForm(f)).orElse(base.getSpecies().getDefaultForm()));
 
+
                 GenderProperties gender = base.getGenderProperties();
                 if(gender == null) {
                     ReforgedMixins.logger.error("Gender properties resulted in null");
                 }
 
-                PaletteProperties properties = base.getGenderProperties().getPalette(target.name());
+                // Override because Basculegion is the ONLY pokemon to use the variant tag afaik
+                if (Objects.equals(base.getSpecies().getName(), "basculegion") && gender != null) {
+                    if (gender.getGender() == Gender.MALE)
+                        nbt.putString("Variant", "male"); // Default female
+                }
+
+                String name = target.name();
+                byte isShiny = nbt.getByte("IsShiny");
+
+                // Append for most, but in mistaken palette registrations of default it will be none but that skips normal shiny migration so manually replace
+                if (isShiny == 1) {
+                    if (name.equals("none")) {
+                        name = "shiny";
+                    } else {
+                        name += ((PaletteTranslation) target).shinySuffix();
+                    }
+                }
+
+                PaletteProperties properties = base.getGenderProperties().getPalette(name);
                 if(properties == null) {
-                    ReforgedMixins.logger.error("Palette properties lacking");
+                    ReforgedMixins.logger.error("Palette properties " + name + " lacking on pokemon " + base.getSpecies().getName());
+                    if (isShiny == 1) {
+                        ReforgedMixins.logger.warn("Falling back to non-shiny variant " + target.name());
+                        properties = base.getGenderProperties().getPalette(target.name());
+                        if (properties == null)
+                            ReforgedMixins.logger.fatal("Palette could not be located for id " + target.name() + "! Likely corrupt or broken.");
+                    }
                 }
 
                 base.palette(properties);
                 nbt.putString("palette", properties.getName());
+
+
+                // Cleanup
                 nbt.remove("IsShiny");
+                //nbt.remove("Variant");
             }
 
         } catch (Exception e) {
