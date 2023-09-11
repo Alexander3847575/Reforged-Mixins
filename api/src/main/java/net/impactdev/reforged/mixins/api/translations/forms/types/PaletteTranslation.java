@@ -38,7 +38,7 @@ public class PaletteTranslation implements LegacyFormTranslation {
         return Optional.ofNullable(this.form);
     }
 
-    public String shinySuffix() { return this.shinySuffix; }
+    public final String shinySuffix() { return this.shinySuffix; }
 
     @Override
     public Destination destination() {

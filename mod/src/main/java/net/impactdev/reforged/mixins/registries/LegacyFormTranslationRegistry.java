@@ -156,8 +156,8 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.form(BASCULIN, 2, "white");
 
         // Gotten from Species.json data; placeholder palette then determined by gender by manual override
-        this.palette(BASCULEGION, 1, "male");
-        this.palette(BASCULEGION, 0, "female");
+        //this.palette(BASCULEGION, 0, "bascu");
+        //this.palette(BASCULEGION, 1, "bascu");
 
         this.palette(BEAUTIFLY, 104, PixelmonPalettes.RAINBOW);
 
