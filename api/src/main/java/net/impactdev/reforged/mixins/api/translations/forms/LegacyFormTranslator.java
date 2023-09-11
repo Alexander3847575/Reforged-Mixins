@@ -76,6 +76,15 @@ public interface LegacyFormTranslator extends Registry {
         return this.register(LegacyKey.of(legacy, species), PaletteTranslation.of(palette, form));
     }
 
+    // Shiny tag overrides
+    default boolean register(@Nullable RegistryValue<Species> species, int legacy, String form, String palette, String shinyTagOverride, Destination destination) {
+        return this.register(LegacyKey.of(legacy, species), PaletteTranslation.of(palette, form, shinyTagOverride));
+    }
+
+    default boolean register(@Nullable RegistryValue<Species> species, int legacy, String name, String shinyTagOverride) {
+        return this.register(LegacyKey.of(legacy, species), PaletteTranslation.of(name, null, shinyTagOverride));
+    }
+
     /**
      * Registers a form translation between 1.12.2 and 1.16.5 data.
      *

@@ -35,15 +35,14 @@ public class ReforgedMixins {
 		Mixins.addConfiguration("mixins.impactdev.reforged.json");
 		MinecraftForge.EVENT_BUS.register(this);
 		logger.info("Booting Reforged Mixins, ready to apply patches to Reforged's shortcomings");
-		Registries.LEGACY_FORMS.set(new LegacyFormTranslationRegistry());
-		Registries.LEGACY_FORMS.get().init();
+
 	}
 
 	@SubscribeEvent
 	public void onServerLaunch(FMLServerStartedEvent event) {
 
-
-
+		Registries.LEGACY_FORMS.set(new LegacyFormTranslationRegistry());
+		Registries.LEGACY_FORMS.get().init();
 		Map<LegacyKey, LegacyFormTranslation> translations = Registries.LEGACY_FORMS.get().translations();
 		long forms = translations.values().stream().filter(x -> x.destination() == Destination.FORM).count();
 		long palettes = translations.values().stream().filter(x -> x.destination() == Destination.PALETTE).count();
