@@ -24,7 +24,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
-import java.util.Objects;
 
 @Mixin(PokemonBase.class)
 public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion {
@@ -124,10 +123,10 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
                 }
 
                 // Override because Basculegion is the ONLY pokemon to use the variant tag afaik
-                if (Objects.equals(base.getSpecies().getName(), "basculegion") && gender != null) {
+                /*if (Objects.equals(base.getSpecies().getName(), "basculegion") && gender != null) {
                     if (gender.getGender() == Gender.MALE)
                         nbt.putString("Variant", "male"); // Default female
-                }
+                }*/
 
                 String name = target.name();
                 byte isShiny = nbt.getByte("IsShiny");

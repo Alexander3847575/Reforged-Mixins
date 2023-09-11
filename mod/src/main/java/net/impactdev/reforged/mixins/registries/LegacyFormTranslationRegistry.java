@@ -90,8 +90,8 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         // Common Forms
         this.register(AEGISLASH, 0, PixelmonForms.SHIELD, Destination.FORM);
         this.register(AEGISLASH, 1, PixelmonForms.BLADE, Destination.FORM);
-        this.formAndPalette(AEGISLASH, 2, PixelmonForms.SHIELD, PixelmonForms.ALTERED);
-        this.formAndPalette(AEGISLASH, 3, PixelmonForms.BLADE, PixelmonForms.ALTERED);
+        this.formAndPalette(AEGISLASH, 2, PixelmonForms.SHIELD, PixelmonPalettes.ALTER);
+        this.formAndPalette(AEGISLASH, 3, PixelmonForms.BLADE, PixelmonPalettes.ALTER);
 
 
         this.palette(ALCREMIE, 27, PixelmonForms.PUMPKIN);
@@ -761,7 +761,7 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
     }
 
     private void palette(RegistryValue<Species> species, int legacy, String name, String shinyTagOverride) {
-        this.register(LegacyKey.of(legacy, species), PaletteTranslation.of(name, null, shinyTagOverride));
+        this.register(species, legacy, name, shinyTagOverride);
     }
 
     private void formAndPalette(RegistryValue<Species> species, int legacy, String form, String palette) {
@@ -769,7 +769,7 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
     }
 
     private void formAndPalette(RegistryValue<Species> species, int legacy, String form, String palette, String shinyTagOverride) {
-        this.register(LegacyKey.of(legacy, species), PaletteTranslation.of(palette, form, shinyTagOverride));
+        this.register(species, legacy, form, palette, shinyTagOverride, Destination.PALETTE);
     }
 
 }
