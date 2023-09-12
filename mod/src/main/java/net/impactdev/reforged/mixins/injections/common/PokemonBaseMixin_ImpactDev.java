@@ -108,7 +108,6 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
 
     private static void translate(CompoundNBT nbt, PokemonBaseExpansion base, Map<LegacyKey, LegacyFormTranslation> translations, LegacyKey species) {
 
-
         try {
             LegacyFormTranslation target = translations.get(species);
             if (target.destination() == Destination.FORM) {
@@ -122,12 +121,6 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
                     ReforgedMixins.logger.error("Gender properties resulted in null");
                 }
 
-                // Override because Basculegion is the ONLY pokemon to use the variant tag afaik
-                /*if (Objects.equals(base.getSpecies().getName(), "basculegion") && gender != null) {
-                    if (gender.getGender() == Gender.MALE)
-                        nbt.putString("Variant", "male"); // Default female
-                }*/
-
                 String name = target.name();
                 byte isShiny = nbt.getByte("IsShiny");
 
@@ -135,6 +128,12 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
                 if (isShiny == 1) {
                     if (name.equals("none")) {
                         name = "shiny";
+
+                    // Override for special Alcremie case where shiny variant is preferred as it overrides the base palette anyways
+                    } else if (species.species().getKey().equals("alcremie")) {
+                        name = name.replaceFirst("_.*", "_shiny");
+                        ReforgedMixins.logger.info("Shiny Alcremie detected! Preferring shiny form " + name + " over base form " + target.name() + " as the shiny form does not exist separately.");
+                        //name = replace;
                     } else {
                         name += ((PaletteTranslation) target).shinySuffix();
                     }

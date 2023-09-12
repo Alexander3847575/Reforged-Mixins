@@ -94,7 +94,80 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.formAndPalette(AEGISLASH, 3, PixelmonForms.BLADE, PixelmonPalettes.ALTER);
 
 
-        this.palette(ALCREMIE, 27, PixelmonForms.PUMPKIN);
+        // START ALCREMIE
+        this.palette(ALCREMIE, 0, "strawberry_vanilla_cream");
+        this.palette(ALCREMIE, 1, "strawberry_ruby_cream");
+        this.palette(ALCREMIE, 2, "strawberry_matcha_cream");
+        this.palette(ALCREMIE, 3, "strawberry_mint_cream");
+        this.palette(ALCREMIE, 4, "strawberry_lemon_cream");
+        this.palette(ALCREMIE, 5, "strawberry_salted_cream");
+        this.palette(ALCREMIE, 6, "strawberry_ruby_swirl");
+        this.palette(ALCREMIE, 7, "strawberry_caramel_swirl");
+        this.palette(ALCREMIE, 8, "strawberry_rainbow_swirl");
+
+        this.palette(ALCREMIE, 9, "berry_vanilla_cream");
+        this.palette(ALCREMIE, 10, "berry_ruby_cream");
+        this.palette(ALCREMIE, 11, "berry_matcha_cream");
+        this.palette(ALCREMIE, 12, "berry_mint_cream");
+        this.palette(ALCREMIE, 13, "berry_lemon_cream");
+        this.palette(ALCREMIE, 14, "berry_salted_cream");
+        this.palette(ALCREMIE, 15, "berry_ruby_swirl");
+        this.palette(ALCREMIE, 16, "berry_caramel_swirl");
+        this.palette(ALCREMIE, 17, "berry_rainbow_swirl");
+
+        this.palette(ALCREMIE, 18, "love_vanilla_cream");
+        this.palette(ALCREMIE, 19, "love_ruby_cream");
+        this.palette(ALCREMIE, 20, "love_matcha_cream");
+        this.palette(ALCREMIE, 21, "love_mint_cream");
+        this.palette(ALCREMIE, 22, "love_lemon_cream");
+        this.palette(ALCREMIE, 23, "love_salted_cream");
+        this.palette(ALCREMIE, 24, "love_ruby_swirl");
+        this.palette(ALCREMIE, 25, "love_caramel_swirl");
+        this.palette(ALCREMIE, 26, "love_rainbow_swirl");
+
+        this.palette(ALCREMIE, 27, "star_vanilla_cream");
+        this.palette(ALCREMIE, 28, "star_ruby_cream");
+        this.palette(ALCREMIE, 29, "star_matcha_cream");
+        this.palette(ALCREMIE, 30, "star_mint_cream");
+        this.palette(ALCREMIE, 31, "star_lemon_cream");
+        this.palette(ALCREMIE, 32, "star_salted_cream");
+        this.palette(ALCREMIE, 33, "star_ruby_swirl");
+        this.palette(ALCREMIE, 34, "star_caramel_swirl");
+        this.palette(ALCREMIE, 35, "star_rainbow_swirl");
+
+        this.palette(ALCREMIE, 36, "clover_vanilla_cream");
+        this.palette(ALCREMIE, 37, "clover_ruby_cream");
+        this.palette(ALCREMIE, 38, "clover_matcha_cream");
+        this.palette(ALCREMIE, 39, "clover_mint_cream");
+        this.palette(ALCREMIE, 40, "clover_lemon_cream");
+        this.palette(ALCREMIE, 41, "clover_salted_cream");
+        this.palette(ALCREMIE, 42, "clover_ruby_swirl");
+        this.palette(ALCREMIE, 43, "clover_caramel_swirl");
+        this.palette(ALCREMIE, 44, "clover_rainbow_swirl");
+
+        this.palette(ALCREMIE, 45, "flower_vanilla_cream");
+        this.palette(ALCREMIE, 46, "flower_ruby_cream");
+        this.palette(ALCREMIE, 47, "flower_matcha_cream");
+        this.palette(ALCREMIE, 48, "flower_mint_cream");
+        this.palette(ALCREMIE, 49, "flower_lemon_cream");
+        this.palette(ALCREMIE, 50, "flower_salted_cream");
+        this.palette(ALCREMIE, 51, "flower_ruby_swirl");
+        this.palette(ALCREMIE, 52, "flower_caramel_swirl");
+        this.palette(ALCREMIE, 53, "flower_rainbow_swirl");
+
+        this.palette(ALCREMIE, 54, "ribbon_vanilla_cream");
+        this.palette(ALCREMIE, 55, "ribbon_ruby_cream");
+        this.palette(ALCREMIE, 56, "ribbon_matcha_cream");
+        this.palette(ALCREMIE, 57, "ribbon_mint_cream");
+        this.palette(ALCREMIE, 58, "ribbon_lemon_cream");
+        this.palette(ALCREMIE, 59, "ribbon_salted_cream");
+        this.palette(ALCREMIE, 60, "ribbon_ruby_swirl");
+        this.palette(ALCREMIE, 61, "ribbon_caramel_swirl");
+        this.palette(ALCREMIE, 62, "ribbon_rainbow_swirl");
+
+        this.palette(ALCREMIE, 63, PixelmonForms.PUMPKIN);
+        // END ALCREMIE
+
 
         this.register(AMOONGUSS, 1, PixelmonPalettes.BLACK, Destination.PALETTE);
         this.register(AMOONGUSS, 2, PixelmonPalettes.BROWN, Destination.PALETTE);
@@ -156,8 +229,8 @@ public class LegacyFormTranslationRegistry implements LegacyFormTranslator {
         this.form(BASCULIN, 2, "white");
 
         // Gotten from Species.json data; placeholder palette then determined by gender by manual override
-        //this.palette(BASCULEGION, 0, "bascu");
-        //this.palette(BASCULEGION, 1, "bascu");
+        this.form(BASCULEGION, 0, "male");
+        this.form(BASCULEGION, 1, "female");
 
         this.palette(BEAUTIFLY, 104, PixelmonPalettes.RAINBOW);
 
