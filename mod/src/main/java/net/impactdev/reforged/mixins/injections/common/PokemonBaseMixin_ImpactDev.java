@@ -139,20 +139,29 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
                     }
                 }
 
+                // Find CustomTexture and migrate
+                if (nbt.getTagType("CustomTexture") != 0) {
+                    name = nbt.getString("CustomTexture");
+                }
+
                 PaletteProperties properties = base.getGenderProperties().getPalette(name);
+
                 if(properties == null) {
                     ReforgedMixins.logger.error("Palette properties " + name + " lacking on pokemon " + base.getSpecies().getName());
                     if (isShiny == 1) {
                         ReforgedMixins.logger.warn("Falling back to non-shiny variant " + target.name());
                         properties = base.getGenderProperties().getPalette(target.name());
-                        if (properties == null)
-                            ReforgedMixins.logger.fatal("Palette could not be located for id " + target.name() + "! Likely corrupt or broken.");
+
                     }
+                }
+
+                if (properties == null) {
+                    ReforgedMixins.logger.fatal("Palette could not be located for id " + target.name() + "! Likely corrupt or missing/broken, so reverting to default palette.");
+                    properties = base.getGenderProperties().getDefaultPalette();
                 }
 
                 base.palette(properties);
                 nbt.putString("palette", properties.getName());
-
 
                 // Cleanup
                 nbt.remove("IsShiny");
