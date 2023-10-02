@@ -110,12 +110,15 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
 
         try {
             LegacyFormTranslation target = translations.get(species);
+            boolean hasCustomPalette = nbt.getTagType("CustomTexture") != 0;
+
             if (target.destination() == Destination.FORM) {
                 base.form(base.getSpecies().getForm(target.name()));
             } else {
                 base.form(((PaletteTranslation) target).form().map(f -> base.getSpecies().getForm(f)).orElse(base.getSpecies().getDefaultForm()));
+            }
 
-
+            if (hasCustomPalette || target.destination() == Destination.PALETTE) {
                 GenderProperties gender = base.getGenderProperties();
                 if(gender == null) {
                     ReforgedMixins.logger.error("Gender properties resulted in null");
@@ -140,7 +143,7 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
                 }
 
                 // Find CustomTexture and migrate
-                if (nbt.getTagType("CustomTexture") != 0) {
+                if (hasCustomPalette) {
                     name = nbt.getString("CustomTexture");
                 }
 
@@ -151,12 +154,11 @@ public abstract class PokemonBaseMixin_ImpactDev implements PokemonBaseExpansion
                     if (isShiny == 1) {
                         ReforgedMixins.logger.warn("Falling back to non-shiny variant " + target.name());
                         properties = base.getGenderProperties().getPalette(target.name());
-
                     }
                 }
 
                 if (properties == null) {
-                    ReforgedMixins.logger.fatal("Palette could not be located for id " + target.name() + "! Likely corrupt or missing/broken, so reverting to default palette.");
+                    ReforgedMixins.logger.fatal("Palette could not be located for id " + base.getSpecies().getName() + "! Likely corrupt or missing/broken, so reverting to default palette.");
                     properties = base.getGenderProperties().getDefaultPalette();
                 }
 
