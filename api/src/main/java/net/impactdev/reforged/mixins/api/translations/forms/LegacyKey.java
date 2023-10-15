@@ -49,7 +49,7 @@ public class LegacyKey {
     @Override
     public String toString() {
         return "LegacyKey{" +
-                "species=" + Optional.ofNullable(this.species).map(RegistryValue::getKey).orElse(null) +
+                "species=" + Optional.ofNullable(this.species).orElse(null) +
                 ", id=" + id +
                 '}';
     }
