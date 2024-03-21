@@ -7,10 +7,10 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "common.EVStoreMixin_ImpactDev",
-    "common.IVStoreMixin_ImpactDev",
     "common.PokemonBaseMixin_ImpactDev",
-    "common.PokemonMixin_ImpactDev"
+    "common.PokemonMixin_ImpactDev",
+    "common.EVStoreMixin_ImpactDev",
+    "common.IVStoreMixin_ImpactDev"
   ],
   "client": [],
   "injectors": {
