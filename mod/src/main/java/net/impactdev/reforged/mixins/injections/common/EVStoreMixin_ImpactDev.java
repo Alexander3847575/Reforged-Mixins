@@ -19,9 +19,9 @@ public class EVStoreMixin_ImpactDev {
     )
     public short translateDefense(final CompoundNBT nbt, final String provided) {
         if(nbt.contains("EVDefence")) {
-            return nbt.getByte("EVDefence");
+            return nbt.getShort("EVDefence");
         } else {
-            return nbt.getByte(provided);
+            return nbt.getShort(provided);
         }
     }
 
@@ -35,9 +35,9 @@ public class EVStoreMixin_ImpactDev {
     )
     public short translateSpDef(final CompoundNBT nbt, final String provided) {
         if(nbt.contains("EVSpecialDefence")) {
-            return nbt.getByte("EVSpecialDefence");
+            return nbt.getShort("EVSpecialDefence");
         } else {
-            return nbt.getByte(provided);
+            return nbt.getShort(provided);
         }
     }
 
