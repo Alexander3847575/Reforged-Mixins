@@ -21,7 +21,8 @@ public class EVStoreMixin_ImpactDev {
         if(nbt.contains("EVDefence")) {
             return nbt.getShort("EVDefence");
         } else {
-            return nbt.getShort(provided);
+            short providedValue = nbt.getShort(provided);
+            return (providedValue < 1) ? (0) : providedValue;
         }
     }
 
@@ -37,7 +38,8 @@ public class EVStoreMixin_ImpactDev {
         if(nbt.contains("EVSpecialDefence")) {
             return nbt.getShort("EVSpecialDefence");
         } else {
-            return nbt.getShort(provided);
+            short providedValue = nbt.getShort(provided);
+            return (providedValue < 1) ? (0) : providedValue;
         }
     }
 
