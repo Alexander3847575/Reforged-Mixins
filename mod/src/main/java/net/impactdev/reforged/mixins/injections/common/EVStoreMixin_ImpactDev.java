@@ -9,6 +9,11 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(EVStore.class)
 public class EVStoreMixin_ImpactDev {
 
+    // hecking mixin classload order shenanigans....
+    private void log(String out) {
+        System.out.print(out);
+    }
+
     @Redirect(
             method = "readFromNBT",
             at = @At(
@@ -18,9 +23,12 @@ public class EVStoreMixin_ImpactDev {
             )
     )
     public short translateDefense(final CompoundNBT nbt, final String provided) {
+        log("EVDef translation triggered for ndex " + nbt.getInt("ndex"));
         if(nbt.contains("EVDefence")) {
+            log(" -> Fetch LEGACY for " + nbt.getShort("EVDefence") + "\n");
             return nbt.getShort("EVDefence");
         } else {
+            log(" -> Fetch modern for " + nbt.getShort(provided) + "\n");
             short providedValue = nbt.getShort(provided);
             return (providedValue < 1) ? (0) : providedValue;
         }
@@ -35,9 +43,12 @@ public class EVStoreMixin_ImpactDev {
             )
     )
     public short translateSpDef(final CompoundNBT nbt, final String provided) {
+        log("EVSpDef translation triggered for ndex " + nbt.getInt("ndex"));
         if(nbt.contains("EVSpecialDefence")) {
+            log("-> Fetch LEGACY for " + nbt.getShort("EVSpecialDefence") + "\n");
             return nbt.getShort("EVSpecialDefence");
         } else {
+            log("-> Fetch modern for " + nbt.getShort(provided) + "\n");
             short providedValue = nbt.getShort(provided);
             return (providedValue < 1) ? (0) : providedValue;
         }

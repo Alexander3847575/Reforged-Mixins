@@ -9,8 +9,8 @@
   "mixins": [
     "common.PokemonBaseMixin_ImpactDev",
     "common.PokemonMixin_ImpactDev",
-    "common.EVStoreMixin_ImpactDev",
-    "common.IVStoreMixin_ImpactDev"
+    "common.IVStoreMixin_ImpactDev",
+    "common.EVStoreMixin_ImpactDev"
   ],
   "client": [],
   "injectors": {
