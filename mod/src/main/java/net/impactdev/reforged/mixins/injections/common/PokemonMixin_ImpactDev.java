@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Mixin(Pokemon.class)
 public abstract class PokemonMixin_ImpactDev extends PokemonBase {
 
-    @Shadow protected transient StoragePosition position;
+    //@Shadow protected transient StoragePosition position;
 
     @Redirect(method = "readFromNBT", at = @At(
             value = "INVOKE",

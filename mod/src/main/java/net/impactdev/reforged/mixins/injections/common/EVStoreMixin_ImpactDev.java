@@ -23,12 +23,14 @@ public class EVStoreMixin_ImpactDev {
             )
     )
     public short translateDefense(final CompoundNBT nbt, final String provided) {
-        log("EVDef translation triggered for ndex " + nbt.getInt("ndex"));
+        //log("EVDef translation triggered for ndex " + nbt.getInt("ndex"));
         if(nbt.contains("EVDefence")) {
-            log(" -> Fetch LEGACY for " + nbt.getShort("EVDefence") + "\n");
-            return nbt.getShort("EVDefence");
+            //log(" -> Fetch LEGACY for " + nbt.getShort("EVDefence") + "\n");
+            short value = nbt.getShort("EVDefence");
+            //nbt.remove("EVDefence");
+            return value;
         } else {
-            log(" -> Fetch modern for " + nbt.getShort(provided) + "\n");
+            //log(" -> Fetch modern for " + nbt.getShort(provided) + "\n");
             short providedValue = nbt.getShort(provided);
             return (providedValue < 1) ? (0) : providedValue;
         }
@@ -43,12 +45,12 @@ public class EVStoreMixin_ImpactDev {
             )
     )
     public short translateSpDef(final CompoundNBT nbt, final String provided) {
-        log("EVSpDef translation triggered for ndex " + nbt.getInt("ndex"));
+        //log("EVSpDef translation triggered for ndex " + nbt.getInt("ndex"));
         if(nbt.contains("EVSpecialDefence")) {
-            log("-> Fetch LEGACY for " + nbt.getShort("EVSpecialDefence") + "\n");
+            //log("-> Fetch LEGACY for " + nbt.getShort("EVSpecialDefence") + "\n");
             return nbt.getShort("EVSpecialDefence");
         } else {
-            log("-> Fetch modern for " + nbt.getShort(provided) + "\n");
+            //log("-> Fetch modern for " + nbt.getShort(provided) + "\n");
             short providedValue = nbt.getShort(provided);
             return (providedValue < 1) ? (0) : providedValue;
         }
